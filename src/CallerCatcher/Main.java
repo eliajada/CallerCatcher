@@ -22,6 +22,7 @@ import javafx.scene.layout.BorderPane;
 public class Main extends Application {
 
 	public static void main(String[] args) {
+	
 		launch(args);
 
 		//driver.initializeDriver();
@@ -29,18 +30,9 @@ public class Main extends Application {
 		//testing();
 		
 		//numberSource1.source1();
-	}
-
-	public static void testing() {
-		try {
-			driver.get("https://www.google.com/");
-
-			driver.randomWait();
-
-			driver.sendKeys("//*[@title=\"Search\"]", "12345");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+		
+		
 	}
 
 	@Override
@@ -48,6 +40,8 @@ public class Main extends Application {
 		try {
 
 			Parent root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
+			//Parent root = FXMLLoader.load(getClass().getResource("CatchScene.fxml"));
+
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);

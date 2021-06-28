@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -17,7 +18,6 @@ import javafx.stage.Stage;
 public class driver {
 
 	public static ChromeDriver driver;
-	public static String methodName;
 
 	public static void initializeDriver() {
 		// System.setProperty("webdriver.chrome.driver",
@@ -124,14 +124,42 @@ public class driver {
 	 * @category Selenium
 	 */
 	public static void click(String xPath) {
+		String methodName = new Throwable().getStackTrace()[0].getMethodName();
 		try {
 
-			// Random wait here
+			// ---wait---
+			randomWait();
+			// ---wait---
+
 			driver.findElement(By.xpath(xPath)).click();
+
+			console.log(methodName, true, xPath);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Checks if web element is displayed
+	 * 
+	 * @param xPath
+	 * @return isDisplayed
+	 * @category Selenium
+	 */
+	public static boolean isDisplayed(String xPath) {
+		boolean isDisplayed = false;
+		try {
+
+			// ---wait---
+			randomWait();
+			// ---wait---
+
+			isDisplayed = driver.findElement(By.xpath(xPath)).isDisplayed();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return isDisplayed;
 	}
 
 	/**
@@ -141,6 +169,9 @@ public class driver {
 	 */
 	public static void get(String url) {
 		try {
+
+			// ---wait---
+			randomWait();
 
 			driver.get(url);
 
@@ -161,16 +192,42 @@ public class driver {
 		return text;
 	}
 
+	public static String getTextJS(String xPath) {
+		String text = "";
+		try {
+
+			JavascriptExecutor js = (JavascriptExecutor)driver;  
+			Object load= js.executeScript("var value = document.evaluate(\""+xPath+"\",document, null, XPathResult.STRING_TYPE, null ); return value.stringValue;"); 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return text;
+	}
+
+	/**
+	 * Send keys to a web element text field one character at a time split by a
+	 * random wait
+	 * 
+	 * @param xPath
+	 * @param keys
+	 */
 	public static void sendKeys(String xPath, String keys) {
+		String methodName = new Throwable().getStackTrace()[0].getMethodName();
 		try {
 
 			String splitKey = "";
 			for (int index = 0; index < keys.length(); index++) {
+
 				splitKey = String.valueOf(keys.charAt(index));
 
+				// random wait
 				randomWait();
-				System.out.println("Sending [" + splitKey + "]");
+				// ----------
+
 				driver.findElement(By.xpath(xPath)).sendKeys(splitKey);
+
+				console.log(methodName, true, keys, splitKey);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -183,9 +240,9 @@ public class driver {
 	 * @category Other
 	 */
 	public static void randomWait() {
-		methodName = new Throwable().getStackTrace()[0].getMethodName();
+		String methodName = new Throwable().getStackTrace()[0].getMethodName();
 		try {
-			
+
 			int max = 6;
 			int min = 1;
 			int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
