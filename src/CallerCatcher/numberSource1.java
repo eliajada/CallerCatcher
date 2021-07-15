@@ -1,5 +1,10 @@
 package CallerCatcher;
 
+import java.io.FileWriter;
+import java.util.HashMap;
+
+import org.openqa.selenium.JavascriptExecutor;
+
 public class numberSource1 {
 
 	public static void source1(String phoneNumber) {
@@ -11,22 +16,25 @@ public class numberSource1 {
 
 				// Visit Source's URL
 				sourceUrl = "https://www.shouldianswer.com/";
-				driver.get(sourceUrl);
+				Driver.get(sourceUrl);
 
 				// Check if Source web page loaded
-				if (driver.isDisplayed("//*[@title=\"Should I Answer?\"]")) {
+				if (Driver.isDisplayed("//*[@title=\"Should I Answer?\"]")) {
 					pageLoaded = true;
 				}
 
 				// Continue if the page loaded
 				if (pageLoaded) {
 
-					driver.sendKeys("//input[@type=\"text\"]", phoneNumber);
+					Driver.sendKeys("//input[@type=\"text\"]", phoneNumber);
 
-					driver.click("//button[@type=\"submit\"]");
+					Driver.click("//button[@type=\"submit\"]");
 
 					// Check if web page loaded
-					if (!driver.isDisplayed("//*[contains(text(),\"Who called you from  " + phoneNumber + " ?\")]")) {
+					if (!Driver.isDisplayed("(//*[contains(text(),'Who called you from')])[2]")) {
+
+						System.out.println("Source 1 failed to load");
+
 						break source1;
 					}
 
@@ -39,15 +47,33 @@ public class numberSource1 {
 					String neutralRateElement = "(//*[contains(text(),'" + phoneNumber
 							+ "')])[3]/following::text()[10]";
 
-					if (!driver.isDisplayed(numberElement)) {
+					String rating = "";
+					if (!Driver.isDisplayed(numberElement)) {
 						// Source Failed: number was not found
 					} else {
-						String rating = driver.getTextJS(mainRateElement);
+						rating = Driver.getTextJS(mainRateElement);
 						System.out.println("Rated: " + rating);
 					}
 
-					// (//*[contains(text(),'6156713047')])[3]/following::text()[1]
+					System.out.println("Overall Rating: " + Driver.getTextJS(mainRateElement));
+					System.out.println("Positive Rating: " + Driver.getTextJS(positiveRateElement));
+					System.out.println("Negative Rating: " + Driver.getTextJS(negativeRateElement));
+					System.out.println("Neutral Rating: " + Driver.getTextJS(neutralRateElement));
 
+					try {
+						HashMap<String, HashMap<String, String>> sourceMap = new HashMap<String, HashMap<String, String>>();
+						HashMap<String, String> detailMap = new HashMap<String, String>();
+						detailMap.put("overallRating", Driver.getTextJS(mainRateElement));
+						detailMap.put("positiveRating", Driver.getTextJS(positiveRateElement));
+						detailMap.put("negativeRating", Driver.getTextJS(negativeRateElement));
+						detailMap.put("neutralRating", Driver.getTextJS(neutralRateElement));
+						sourceMap.put("source1", detailMap);
+						Driver.writeToJson(sourceMap);
+					} catch (Exception c) {
+
+					}
+
+					Driver.readFromJson("source1", "overallRating");
 				}
 
 			} catch (Exception e) {

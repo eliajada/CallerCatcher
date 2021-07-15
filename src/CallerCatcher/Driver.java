@@ -1,8 +1,18 @@
 package CallerCatcher;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -10,12 +20,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class driver {
+public class Driver {
 
 	public static ChromeDriver driver;
 
@@ -153,7 +167,7 @@ public class driver {
 			// ---wait---
 			randomWait();
 			// ---wait---
-
+			System.out.println(String.valueOf(driver.findElement(By.xpath(xPath)).isDisplayed()));
 			isDisplayed = driver.findElement(By.xpath(xPath)).isDisplayed();
 
 		} catch (Exception e) {
@@ -196,8 +210,10 @@ public class driver {
 		String text = "";
 		try {
 
-			JavascriptExecutor js = (JavascriptExecutor)driver;  
-			Object load= js.executeScript("var value = document.evaluate(\""+xPath+"\",document, null, XPathResult.STRING_TYPE, null ); return value.stringValue;"); 
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			Object load = js.executeScript("var value = document.evaluate(\"" + xPath
+					+ "\",document, null, XPathResult.STRING_TYPE, null ); return value.stringValue;");
+			text = String.valueOf(load);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -252,6 +268,36 @@ public class driver {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void writeToJson(Object detailsMap) {
+		String methodName = new Throwable().getStackTrace()[0].getMethodName();
+		try {
+
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.enable(SerializationFeature.INDENT_OUTPUT);
+			mapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get("json\\results.json").toFile(),
+					detailsMap);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static String readFromJson(String source, String key) {
+		String methodName = new Throwable().getStackTrace()[0].getMethodName();
+		String detail = "";
+		try {
+
+			JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("json\\results.json"));
+			JSONObject jsonObject2 = (JSONObject) jsonObject.get(source);
+			detail = jsonObject2.get(key).toString();
+
+			System.out.println("Getting '" + key + "' value from ["+source+"]");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return detail;
 	}
 
 }

@@ -12,6 +12,8 @@ import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
 
+import com.google.gson.Gson;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -22,17 +24,10 @@ import javafx.scene.layout.BorderPane;
 public class Main extends Application {
 
 	public static void main(String[] args) {
-	
+
+
 		launch(args);
 
-		//driver.initializeDriver();
-
-		//testing();
-		
-		//numberSource1.source1();
-		
-		
-		
 	}
 
 	@Override
@@ -40,7 +35,7 @@ public class Main extends Application {
 		try {
 
 			Parent root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
-			//Parent root = FXMLLoader.load(getClass().getResource("CatchScene.fxml"));
+			// Parent root = FXMLLoader.load(getClass().getResource("CatchScene.fxml"));
 
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

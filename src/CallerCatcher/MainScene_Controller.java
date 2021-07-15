@@ -20,9 +20,9 @@ public class MainScene_Controller {
 	@FXML
 	private TextField numberInput;
 
-	
 	String phoneNumber;
 	Alert invalidInput = new Alert(AlertType.ERROR);
+	boolean proceed = false;
 
 	public void search(ActionEvent e) {
 
@@ -48,18 +48,25 @@ public class MainScene_Controller {
 			invalidInput.show();
 		}
 
+		else {
+			proceed = true;
+		}
+
 		System.out.println("Number: " + phoneNumber);
-		
-		driver.initializeDriver();
-		
-		numberSource1.source1(phoneNumber);
-		
+
+		// Launch Chromedriver and continue only if number input is valid.
+		if (proceed) {
+			Driver.initializeDriver();
+
+			numberSource1.source1(phoneNumber);
+		}
 	}
-	
+
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
-	
+
+	// Switch to the Catch Scene
 	public void switchToCatchScene(ActionEvent event) {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("CatchScene.fxml"));
