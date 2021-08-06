@@ -44,7 +44,7 @@ public class Driver {
 		options.addArguments("--disable-blink-features=AutomationControlled");
 		options.addArguments("--incognito");
 		// options.addArguments("--headless");
-		options.addArguments("--remote-debugging-port=9222");
+//		options.addArguments("--remote-debugging-port=9222");
 		options.addArguments("--no-sandbox");
 		options.addArguments("--disable-application-cache");
 		options.addArguments("--disable-notifications");
@@ -221,6 +221,16 @@ public class Driver {
 		return text;
 	}
 
+	public static void quit() {
+		try {
+
+			driver.quit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Send keys to a web element text field one character at a time split by a
 	 * random wait
@@ -269,15 +279,14 @@ public class Driver {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void writeToJson(Object detailsMap) {
 		String methodName = new Throwable().getStackTrace()[0].getMethodName();
 		try {
 
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.enable(SerializationFeature.INDENT_OUTPUT);
-			mapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get("json\\results.json").toFile(),
-					detailsMap);
+			mapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get("json\\results.json").toFile(), detailsMap);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -293,7 +302,7 @@ public class Driver {
 			JSONObject jsonObject2 = (JSONObject) jsonObject.get(source);
 			detail = jsonObject2.get(key).toString();
 
-			System.out.println("Getting '" + key + "' value from ["+source+"]");
+			System.out.println("Getting '" + key + "' value from [" + source + "]");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

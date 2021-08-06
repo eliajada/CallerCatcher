@@ -24,7 +24,9 @@ public class MainScene_Controller {
 	Alert invalidInput = new Alert(AlertType.ERROR);
 	boolean proceed = false;
 
-	public void search(ActionEvent e) {
+	public void search(ActionEvent e) throws InterruptedException, IOException {
+
+		// Gui.switchSceneToCatch();
 
 		System.out.println("Starting search");
 
@@ -56,30 +58,26 @@ public class MainScene_Controller {
 
 		// Launch Chromedriver and continue only if number input is valid.
 		if (proceed) {
+
+			Gui.getStage().hide();
+			// Start up Webdriver
 			Driver.initializeDriver();
 
+			// Run number through Source 1
 			numberSource1.source1(phoneNumber);
+
+			// Quit the Web Driver
+			Driver.quit();
+			
+
+			// Switch to Catch Scene
+			Gui.switchSceneToCatch();
+
+			// Write Source 1 details to Catch Scene
+			CatchScene_Controller.writeToCatchScene_Source1();
+
 		}
 	}
 
-	private Stage stage;
-	private Scene scene;
-	private Parent root;
-
-	// Switch to the Catch Scene
-	public void switchToCatchScene(ActionEvent event) {
-		try {
-			Parent root = FXMLLoader.load(getClass().getResource("CatchScene.fxml"));
-			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			stage.setX(300);
-			stage.setY(50);
-			scene = new Scene(root);
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
-	}
 
 }

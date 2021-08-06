@@ -6,21 +6,21 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CallerCatcher.MainScene_Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #0277BD;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CallerCatcher.MainScene_Controller">
    <children>
-      <Text layoutX="139.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CallerCatcher">
+      <Text fill="WHITE" layoutX="137.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CallerCatcher">
          <font>
             <Font size="55.0" />
          </font>
       </Text>
-      <TextField fx:id="numberInput" alignment="CENTER" layoutX="137.0" layoutY="145.0" prefHeight="54.0" prefWidth="325.0" promptText="Input a phone number..">
+      <TextField fx:id="numberInput" alignment="CENTER" layoutX="80.0" layoutY="153.0" prefHeight="94.0" prefWidth="439.0" promptText="Input a phone number.." style="-fx-background-color: #E1F5FE; -fx-background-radius: 15;">
          <font>
-            <Font size="25.0" />
+            <Font size="31.0" />
          </font>
       </TextField>
-      <Button fx:id="searchButton" layoutX="242.0" layoutY="238.0" mnemonicParsing="false" onAction="#search" prefHeight="54.0" prefWidth="115.0" text="Search!">
+      <Button fx:id="searchButton" layoutX="213.0" layoutY="280.0" mnemonicParsing="false" onAction="#search" prefHeight="94.0" prefWidth="170.0" style="-fx-box-shadow: none; -fx-border-radius: 0; -fx-background: none; -fx-background-color: #29B6F6; -fx-background-radius: 15;" text="Search!" textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font size="19.0" />
+            <Font size="30.0" />
          </font>
       </Button>
    </children>
