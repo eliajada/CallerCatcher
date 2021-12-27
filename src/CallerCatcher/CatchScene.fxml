@@ -11,23 +11,16 @@
       <ListView fx:id="sourcesList" prefHeight="675.0" prefWidth="200.0" style="-fx-background-color: #80D8FF;" />
       <Pane layoutX="200.0" prefHeight="675.0" prefWidth="701.0" style="-fx-background-color: #0277BD;">
          <children>
-            <Label fx:id="callerNumber" layoutX="422.0" layoutY="14.0" text="Number" textAlignment="CENTER" textFill="#40c4ff">
-               <font>
-                  <Font name="System Bold" size="45.0" />
-               </font>
-            </Label>
-            <Pane prefHeight="94.0" prefWidth="285.0" style="-fx-background-color: #80D8FF; -fx-background-radius: 0 0 25 0;">
+            <Pane prefHeight="94.0" prefWidth="300.0" style="-fx-background-color: #80D8FF; -fx-background-radius: 0 0 25 0;">
                <children>
-                  <Label fx:id="callerSource" layoutX="79.0" layoutY="16.0" text="Source" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font size="42.0" />
-                     </font>
+                  <Label fx:id="callerSource" layoutX="7.0" layoutY="14.0" prefHeight="66.0" prefWidth="280.0" text="Source" textAlignment="CENTER" textFill="WHITE">
+              
                   </Label>
                </children>
             </Pane>
             <Pane layoutX="91.0" layoutY="208.0" prefHeight="94.0" prefWidth="520.0" style="-fx-background-color: #29B6F6; -fx-background-radius: 15;">
                <children>
-                  <Label fx:id="callerID" layoutX="170.0" layoutY="14.0" text="Caller ID" textAlignment="CENTER" textFill="#01579b">
+                  <Label fx:id="callerID" layoutX="12.0" layoutY="14.0" prefHeight="66.0" prefWidth="497.0" text="Caller ID" textAlignment="CENTER" textFill="#01579b">
                      <font>
                         <Font name="System Bold" size="45.0" />
                      </font>
@@ -79,6 +72,11 @@
             <Label layoutX="303.0" layoutY="455.0" text="Rating" textAlignment="CENTER" textFill="#40c4ff">
                <font>
                   <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="callerNumber" layoutX="467.0" layoutY="14.0" text="Number" textAlignment="CENTER" textFill="#40c4ff">
+               <font>
+                  <Font name="System Bold" size="45.0" />
                </font>
             </Label>
          </children>

@@ -27,16 +27,23 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class Driver {
 
+	static StackTraceElement method;
+
 	public static ChromeDriver driver;
 
 	public static void initializeDriver() {
-		// System.setProperty("webdriver.chrome.driver",
-		// "C:\\Users\\Code\\Desktop\\CallerCatcherProject\\CallerCatcher\\driver\\chromedriver.exe");
-		System.setProperty("webdriver.chrome.driver", "driver\\patched\\chromedriver.exe");
+	
+	
+		System.setProperty("webdriver.chrome.driver", "driver\\updated\\chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
 
 		options.setExperimentalOption("useAutomationExtension", false);
@@ -120,16 +127,6 @@ public class Driver {
 		// driver.get("https://nowsecure.nl");
 
 	}
-	// Running Python script
-//	try {
-//		ProcessBuilder pb = new ProcessBuilder("C:\\Users\\Code\\AppData\\Local\\Programs\\Python\\Python39\\python.exe", "C:\\Users\\Code\\Desktop\\Project\\test.py");
-//		pb.redirectOutput(Redirect.INHERIT);
-//		Process p = pb.start();
-//	} catch (IOException e) {
-//		// TODO Auto-generated catch block
-//		System.out.println("Failed");
-//		e.printStackTrace();
-//	}
 
 	/**
 	 * Clicks web element
@@ -138,17 +135,17 @@ public class Driver {
 	 * @category Selenium
 	 */
 	public static void click(String xPath) {
-		String methodName = new Throwable().getStackTrace()[0].getMethodName();
 		try {
 
-			// ---wait---
 			randomWait();
-			// ---wait---
 
 			driver.findElement(By.xpath(xPath)).click();
 
-			console.log(methodName, true, xPath);
+			// **** Console ****
+			method = new Exception().getStackTrace()[0];
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), true, xPath);
 		} catch (Exception e) {
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), false);
 			e.printStackTrace();
 		}
 	}
@@ -164,13 +161,16 @@ public class Driver {
 		boolean isDisplayed = false;
 		try {
 
-			// ---wait---
 			randomWait();
-			// ---wait---
-			System.out.println(String.valueOf(driver.findElement(By.xpath(xPath)).isDisplayed()));
+
 			isDisplayed = driver.findElement(By.xpath(xPath)).isDisplayed();
 
+			// **** Console ****
+			method = new Exception().getStackTrace()[0];
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), true, xPath,
+					String.valueOf(driver.findElement(By.xpath(xPath)).isDisplayed()));
 		} catch (Exception e) {
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), false);
 			e.printStackTrace();
 		}
 		return isDisplayed;
@@ -179,6 +179,8 @@ public class Driver {
 	/**
 	 * Visit URL
 	 * 
+	 * @param url
+	 * @return isDisplayed
 	 * @category Selenium
 	 */
 	public static void get(String url) {
@@ -189,23 +191,45 @@ public class Driver {
 
 			driver.get(url);
 
+			// **** Console ****
+			method = new Exception().getStackTrace()[0];
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), true, url);
 		} catch (Exception e) {
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), false);
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Get text from element
+	 * 
+	 * @param xPath
+	 * @return text
+	 * @category Selenium
+	 */
 	public static String getText(String xPath) {
 		String text = "";
 		try {
 
 			text = driver.findElement(By.xpath(xPath)).getText();
 
+			// **** Console ****
+			method = new Exception().getStackTrace()[0];
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), true, xPath, text);
 		} catch (Exception e) {
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), false);
 			e.printStackTrace();
 		}
 		return text;
 	}
 
+	/**
+	 * Get text from element using JavaScript
+	 * 
+	 * @param xPath
+	 * @return text
+	 * @category Selenium
+	 */
 	public static String getTextJS(String xPath) {
 		String text = "";
 		try {
@@ -215,18 +239,31 @@ public class Driver {
 					+ "\",document, null, XPathResult.STRING_TYPE, null ); return value.stringValue;");
 			text = String.valueOf(load);
 
+			// **** Console ****
+			method = new Exception().getStackTrace()[0];
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), true, xPath, text);
 		} catch (Exception e) {
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), false);
 			e.printStackTrace();
 		}
 		return text;
 	}
 
+	/**
+	 * Quits the WebDriver
+	 * 
+	 * @category Selenium
+	 */
 	public static void quit() {
 		try {
 
 			driver.quit();
 
+			// **** Console ****
+			method = new Exception().getStackTrace()[0];
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), true);
 		} catch (Exception e) {
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), false);
 			e.printStackTrace();
 		}
 	}
@@ -237,9 +274,9 @@ public class Driver {
 	 * 
 	 * @param xPath
 	 * @param keys
+	 * @category Selenium
 	 */
 	public static void sendKeys(String xPath, String keys) {
-		String methodName = new Throwable().getStackTrace()[0].getMethodName();
 		try {
 
 			String splitKey = "";
@@ -252,10 +289,15 @@ public class Driver {
 				// ----------
 
 				driver.findElement(By.xpath(xPath)).sendKeys(splitKey);
-
-				console.log(methodName, true, keys, splitKey);
+				
+				// **** Console ****
+				method = new Exception().getStackTrace()[0];
+				console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), true, xPath, splitKey);
 			}
+			
+			//console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), true, xPath, keys);
 		} catch (Exception e) {
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), false);
 			e.printStackTrace();
 		}
 	}
@@ -266,7 +308,6 @@ public class Driver {
 	 * @category Other
 	 */
 	public static void randomWait() {
-		String methodName = new Throwable().getStackTrace()[0].getMethodName();
 		try {
 
 			int max = 6;
@@ -274,39 +315,153 @@ public class Driver {
 			int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
 			TimeUnit.SECONDS.sleep(randomNum);
 
-			console.log(methodName, true, randomNum);
+			// **** Console ****
+			method = new Exception().getStackTrace()[0];
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), true, randomNum);
 		} catch (Exception e) {
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), false);
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Writes to JSON
+	 * 
+	 * @param detailsMap
+	 * @category Other
+	 */
 	public static void writeToJson(Object detailsMap) {
-		String methodName = new Throwable().getStackTrace()[0].getMethodName();
 		try {
 
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.enable(SerializationFeature.INDENT_OUTPUT);
 			mapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get("json\\results.json").toFile(), detailsMap);
 
+			// **** Console ****
+			method = new Exception().getStackTrace()[0];
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), true,
+					detailsMap.toString());
 		} catch (Exception e) {
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), false);
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Reads from JSON
+	 * 
+	 * @param source
+	 * @param key
+	 * @return detail
+	 * @category Other
+	 */
 	public static String readFromJson(String source, String key) {
-		String methodName = new Throwable().getStackTrace()[0].getMethodName();
 		String detail = "";
 		try {
 
 			JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("json\\results.json"));
 			JSONObject jsonObject2 = (JSONObject) jsonObject.get(source);
-			detail = jsonObject2.get(key).toString();
+			
+			try {
+				detail = jsonObject2.get(key).toString();
+			} catch (Exception e) {
+				detail = "Not Available";
+			}
 
 			System.out.println("Getting '" + key + "' value from [" + source + "]");
+			
+			// **** Console ****
+			method = new Exception().getStackTrace()[0];
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), true, source, key,
+					detail);
 		} catch (Exception e) {
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), false);
 			e.printStackTrace();
 		}
 		return detail;
+	}
+
+	/**
+	 * Set & Get Phone Number
+	 * 
+	 * @param fetchedPhoneNumber
+	 * @return phoneNumber
+	 * @category Other
+	 */
+	
+	static String phoneNumber;
+
+	public static String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public static void setPhoneNumber(String fetchedPhoneNumber) {
+		phoneNumber = fetchedPhoneNumber;
+	}
+	
+	/**
+	 * Set & Get proceedProgram
+	 * 
+	 * @param fetchedPhoneNumber
+	 * @return phoneNumber
+	 * @category Other
+	 */
+	
+	static boolean proceedProgram;
+
+	public static boolean getProceedProgram() {
+		return proceedProgram;
+	}
+
+	public static void setProceedProgram(boolean proceed) {
+		proceedProgram = proceed;
+	}
+
+
+	/**
+	 * Writes to Label and dynamically fits text written
+	 * 
+	 * @param Label, text
+	 * @category JavaFX
+	 * 
+	 */
+	private final static double defaultFontSize = 80;
+	private final static Font defaultFont = Font.font(defaultFontSize);
+
+	public static void writeToLabel(Label static_FXML_label, String text) {
+		try {
+			System.out.println("writeToLabel(): Writing to " + static_FXML_label.toString() + "\n Text: " + text);
+			double MAX_TEXT_WIDTH = static_FXML_label.getWidth();
+
+			TextField tf = new TextField(text);
+			static_FXML_label.setTextAlignment(TextAlignment.CENTER);
+			static_FXML_label.setFont(defaultFont);
+
+			static_FXML_label.textProperty().addListener((observable, oldValue, newValue) -> {
+
+				Text tmpText = new Text(newValue);
+				tmpText.setFont(defaultFont);
+				double textWidth = tmpText.getLayoutBounds().getWidth();
+
+				if (textWidth <= MAX_TEXT_WIDTH) {
+					static_FXML_label.setFont(defaultFont);
+				} else {
+					double newFontSize = defaultFontSize * MAX_TEXT_WIDTH / textWidth;
+					static_FXML_label.setFont(Font.font(defaultFont.getFamily(), newFontSize));
+				}
+
+			});
+			static_FXML_label.textProperty().bind(tf.textProperty());
+			
+			
+			// **** Console ****
+			method = new Exception().getStackTrace()[0];
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), true,
+					static_FXML_label.toString(), text);
+		} catch (Exception e) {
+			console.log(method.getClassName(), method.getLineNumber(), method.getMethodName(), false);
+			e.printStackTrace();
+		}
 	}
 
 }

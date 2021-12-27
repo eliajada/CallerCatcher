@@ -2,6 +2,7 @@ package CallerCatcher;
 
 import java.io.IOException;
 
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.Node;
@@ -30,7 +31,9 @@ public class MainScene_Controller {
 
 		System.out.println("Starting search");
 
-		phoneNumber = numberInput.getText();
+		// Set the phone number
+		Driver.setPhoneNumber(numberInput.getText());
+		phoneNumber = Driver.getPhoneNumber();
 
 		// Alert:
 		// Number is too short or too long
@@ -51,33 +54,51 @@ public class MainScene_Controller {
 		}
 
 		else {
-			proceed = true;
-		}
 
-		System.out.println("Number: " + phoneNumber);
+			proceed = true;
+
+			Driver.setProceedProgram(proceed);
+
+			Driver.setPhoneNumber(phoneNumber);
+			System.out.println("Number: " + phoneNumber);
+
+			
+			// Start main runner
+			mainRunner();
+			
+		}
 
 		// Launch Chromedriver and continue only if number input is valid.
-		if (proceed) {
-
-			Gui.getStage().hide();
-			// Start up Webdriver
-			Driver.initializeDriver();
-
-			// Run number through Source 1
-			numberSource1.source1(phoneNumber);
-
-			// Quit the Web Driver
-			Driver.quit();
-			
-
-			// Switch to Catch Scene
-			Gui.switchSceneToCatch();
-
-			// Write Source 1 details to Catch Scene
-			CatchScene_Controller.writeToCatchScene_Source1();
-
-		}
+//		if (proceed) {
+//
+//			Gui.getStage().hide();
+////			// Start up Webdriver
+////			Driver.initializeDriver();
+////
+////			// Run number through Source 1
+////			numberSource1.source1(phoneNumber);
+////
+////			// Quit the Web Driver
+////			Driver.quit();
+//
+//			// Switch to Catch Scene
+//			Gui.switchSceneToCatch();
+//
+//			// Write Source 1 details to Catch Scene
+//			//CatchScene_Controller.writeToCatchScene_Source1();
+//			CatchScene_Controller.source1Writing();
+//
+//		}
 	}
 
+	public static void mainRunner() throws IOException {
+
+		Main.startProgram();
+
+		Main.phoneFetch();
+
+		Main.endProgram();
+
+	}
 
 }
